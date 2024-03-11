@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose_test2.yml
+    kompose.version: 1.32.0 (765fde254)
+  labels:
+    io.kompose.service: lila
+  name: lila
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: lila
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose_test2.yml
+        kompose.version: 1.32.0 (765fde254)
+      labels:
+        io.kompose.network/lila-docker-lila-network: "true"
+        io.kompose.service: lila
+    spec:
+      nodeSelector:
+        lila-image: available
+      containers:
+        - env:
+            - name: ENABLE_MONITORING
+              value: "false"
+            - name: LILA_DOMAIN
+              value: 172.30.10.3:8080
+            - name: LILA_URL
+              value: http://172.30.10.3:8080
+          image: lila:latest
+          imagePullPolicy: Never  # Use local image if present
+          name: lila
