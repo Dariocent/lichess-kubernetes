@@ -2,6 +2,7 @@
 
 - How to implement MongoDB (statefulsets vs operators)
 - How to serve static content (CDN best way but overengineered, build static content directly into the nginx container)
+- websockets in kubernetes
 
 # Other notes
 
